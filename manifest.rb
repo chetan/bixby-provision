@@ -1,5 +1,5 @@
 
-refresh_packages
+sys.refresh_packages
 upgrade_system
 
 repo "rpmforge", :platforms => [:rhel, :centos]
