@@ -19,3 +19,7 @@ dir.recreate "/opt/bixby", :chown => "$USER" # rm then create
 
 checkout "https://github.com/chetan/bixby-omnibus.git", :path => "~/bixby-omnibus"
 bundle.install "~/bixby-omnibus"
+
+inventory.tap do
+  tags "foo", "bar"
+end
