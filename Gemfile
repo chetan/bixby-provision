@@ -5,8 +5,8 @@ group :self do
   gem 'bixby-provision', :path => "."
 end
 
-# gem "bixby-client"
-gem "bixby-client", :path => "~/work/bixby/client"
+gem "bixby-client"
+# gem "bixby-client", :path => "~/work/bixby/client"
 
 group :development do
   # packaging
