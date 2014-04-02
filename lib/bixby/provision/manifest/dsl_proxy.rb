@@ -3,7 +3,7 @@ module Bixby
   module Provision
     class Manifest
 
-      class DSL
+      class DSLProxy
         extend Forwardable
       end
 

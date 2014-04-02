@@ -1,5 +1,5 @@
 
-require "bixby/provision/manifest/dsl"
+require "bixby/provision/manifest/dsl_proxy"
 
 module Bixby
   module Provision
@@ -12,7 +12,7 @@ module Bixby
       end
 
       def load_manifest(file)
-        dsl = DSL.new
+        dsl = DSLProxy.new
         dsl.instance_eval(File.read(file), file, 1)
       end
 

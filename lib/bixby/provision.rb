@@ -13,7 +13,7 @@ module Bixby
       end
       name = name.to_sym
 
-      Manifest::DSL.class_eval <<-EOF
+      Manifest::DSLProxy.class_eval <<-EOF
         def #{name}
           @#{name} ||= #{obj.name}.new
         end
@@ -22,7 +22,7 @@ module Bixby
       if obj.const_defined? :EXPORTS then
         obj::EXPORTS.each do |e|
 
-          Manifest::DSL.class_eval do
+          Manifest::DSLProxy.class_eval do
             def_delegator name, e.to_sym
           end
 
