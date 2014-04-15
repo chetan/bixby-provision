@@ -7,20 +7,12 @@ module Bixby
       include Bixby::Log
       include Bixby::ScriptUtil
 
+      PATH = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+      attr_accessor :manifest
+
       def tap(&block)
         self.instance_eval(&block)
-      end
-
-      def logged_sudo(*args)
-        cmd = sudo(*args)
-        logger.info {
-          s = cmd.command
-          s += "\nSTATUS: #{cmd.exitstatus}" if !cmd.success?
-          s += "\nSTDOUT:\n#{cmd.stdout}" if !cmd.stdout.strip.empty?
-          s += "\nSTDERR:\n#{cmd.stderr}" if !cmd.stderr.strip.empty?
-          s
-        }
-        cmd
       end
 
     end

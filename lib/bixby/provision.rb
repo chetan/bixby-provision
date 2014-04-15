@@ -18,7 +18,10 @@ module Bixby
 
       Manifest::DSLProxy.class_eval <<-EOF
         def #{name}
-          @#{name} ||= #{obj.name}.new
+          return @#{name} if @#{name}
+          @#{name} = #{obj.name}.new
+          @#{name}.manifest = self
+          @#{name}
         end
       EOF
 
@@ -31,6 +34,13 @@ module Bixby
 
         end
       end
+
+      # add accessors for each DSL object
+      Base.class_eval <<-EOF
+        def #{name}
+          self.manifest.send(:#{name})
+        end
+      EOF
 
     end
 
