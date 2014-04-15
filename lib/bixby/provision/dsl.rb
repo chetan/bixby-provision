@@ -1,5 +1,6 @@
 
 require "bixby/provision/dsl/base"
+require "bixby/provision/dsl/run_control"
 
 require "bixby/provision/dsl/system"
 require "bixby/provision/dsl/repo"

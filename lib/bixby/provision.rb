@@ -1,4 +1,7 @@
 
+require "bixby-common"
+require "bixby-client"
+
 module Bixby
   module Provision
 
@@ -36,3 +39,5 @@ end
 
 require "bixby/provision/manifest"
 require "bixby/provision/dsl"
+
+Bixby::Log.setup_logger(:filename => Bixby.path("var", "provision.log"))
