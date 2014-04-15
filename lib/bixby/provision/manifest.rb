@@ -6,14 +6,14 @@ module Bixby
 
     class Manifest
 
-      def initialize(file)
-        @file = file
-        load_manifest(file)
+      def initialize(filename)
+        @filename = filename
+        load_manifest(filename)
       end
 
-      def load_manifest(file)
+      def load_manifest(filename)
         dsl = DSLProxy.new
-        dsl.instance_eval(File.read(file), file, 1)
+        dsl.instance_eval(File.read(filename), filename, 1)
       end
 
     end
