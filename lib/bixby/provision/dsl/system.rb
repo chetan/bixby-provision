@@ -1,4 +1,8 @@
 
+require "bixby/provision/dsl/packager/base"
+require "bixby/provision/dsl/packager/apt"
+require "bixby/provision/dsl/packager/yum"
+
 module Bixby
   module Provision
 
@@ -6,36 +10,31 @@ module Bixby
 
       EXPORTS = [:refresh_packages, :upgrade_system, :package]
 
-      def refresh_packages
-        if ubuntu? then
-          logger.info "refresh_packages via apt"
-          sudo("apt-get -qqy update")
+      attr_reader :packager
 
+      def initialize(*args)
+        super
+        @packager = if ubuntu? then
+          Packager::Apt.new
         elsif centos? or amazon? then
-          logger.info "refresh_packages via yum"
-          sudo("yum -q clean all")
-          sudo("yum -q -y check-update")
-
+          Packager::Yum.new
         end
+      end
+
+      def refresh_packages
+        logger.info "refresh_packages"
+        packager.refresh
       end
 
       def upgrade_system
-        if ubuntu? then
-          logger.info "upgrade_system via apt"
-          env = { "DEBIAN_FRONTEND" => "noninteractive" }
-          logged_sudo('DEBIAN_FRONTEND=noninteractive dpkg-reconfigure grub-pc', :env => env)
-          logged_sudo('apt-get -qqy -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade', :env => env)
-          logged_sudo('apt-get -qqy autoremove')
-          logged_sudo('apt-get -qqy autoclean')
-
-        elsif centos? or amazon? then
-          logger.info "upgrade_system via yum"
-          logged_sudo('yum -q -y upgrade')
-
-        end
+        logger.info "upgrade_system"
+        packager.upgrade_system
       end
 
-      def package(*args)
+      def package(*packages)
+        packages.flatten!
+        logger.info "installing packages " + packages.join(" ")
+        packager.install(*packages)
       end
 
     end
