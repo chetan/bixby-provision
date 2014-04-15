@@ -20,9 +20,9 @@ Vagrant.configure("2") do |config|
   # config.vbguest.iso_path = "#{ENV['HOME']}/downloads/VBoxGuestAdditions_%{version}.iso"
 
   # shared folders
-  pkg_dir = File.join(File.expand_path(File.dirname(__FILE__)), "pkg")
-  Dir.mkdir(pkg_dir) if not File.exist? pkg_dir
-  config.vm.synced_folder ".", "/opt/bixby-provision", :disabled => false
+  config.vm.synced_folder ".", "/opt/bixby-provision"
+  config.vm.synced_folder "../common", "/opt/bixby-common"
+  config.vm.synced_folder "../client", "/opt/bixby-client"
 
   # Enable SSH agent forwarding for git clones
   config.ssh.forward_agent = true
@@ -56,4 +56,3 @@ Vagrant.configure("2") do |config|
     override.ssh.username = "bixby"
   end
 end
-
