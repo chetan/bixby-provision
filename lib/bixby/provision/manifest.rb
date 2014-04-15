@@ -8,6 +8,7 @@ module Bixby
 
       def initialize(filename)
         @filename = filename
+        @digest = Digest::SHA2.new(256).file(filename).hexdigest()
         load_manifest(filename)
       end
 
