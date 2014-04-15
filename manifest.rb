@@ -4,7 +4,7 @@ first_boot do
   upgrade_system
 end
 
-repo "rpmforge", :platforms => [:rhel, :centos]
+repo "epel", :platforms => [:rhel, :centos]
 package "sudo", "wget"
 
 package "group-build_tools"
