@@ -9,7 +9,9 @@ module Bixby
       def first_boot(&block)
         if first_boot_has_run? then
           logger.info "first_boot already ran"
+          return
         end
+
         logger.info "running first_boot block"
         begin
           block.call
