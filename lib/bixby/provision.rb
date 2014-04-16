@@ -7,20 +7,22 @@ module Bixby
 
     def self.register_dsl(obj, name=nil)
 
-      # if !obj.const_defined? :EXPORTS then
-      #   raise "#{obj} doesn't have an EXPORTS constant!"
-      # end
-
+      # create a simple name if none given
+      # "Bixby::Provision::Config" > :config
       if name.nil? then
         name = obj.name.split(/::/).last.downcase
       end
       name = name.to_sym
 
+      # return the dsl object via its name
+      # always returns the same instance
       Manifest::DSLProxy.class_eval <<-EOF
         def #{name}
-          return @#{name} if @#{name}
-          @#{name} = #{obj.name}.new
-          @#{name}.manifest = self
+          return @#{name} if @#{name} # return already created instance
+
+          @#{name}          = #{obj.name}.new
+          @#{name}.manifest = self.manifest
+          @#{name}.proxy    = self
           @#{name}
         end
       EOF

@@ -4,7 +4,7 @@ module Bixby
 
     class NodeJS < Base
 
-      EXPORTS = [:npm]
+      EXPORTS = []
 
       CURRENT_VERSION = "0.10.26"
 
@@ -20,9 +20,6 @@ module Bixby
           sys.package "nodejs"
         end
 
-      end
-
-      def npm(name, opts={})
       end
 
 

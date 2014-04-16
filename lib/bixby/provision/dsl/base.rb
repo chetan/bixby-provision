@@ -9,7 +9,7 @@ module Bixby
 
       PATH = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-      attr_accessor :manifest
+      attr_accessor :manifest, :proxy
 
       def tap(&block)
         self.instance_eval(&block)

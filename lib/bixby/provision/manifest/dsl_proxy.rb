@@ -5,6 +5,11 @@ module Bixby
 
       class DSLProxy
         extend Forwardable
+        attr_reader :manifest
+
+        def initialize(manifest)
+          @manifest = manifest
+        end
       end
 
     end

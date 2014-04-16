@@ -6,6 +6,8 @@ module Bixby
 
     class Manifest
 
+      attr_reader :filename, :digest
+
       def initialize(filename)
         @filename = filename
         @digest = Digest::SHA2.new(256).file(filename).hexdigest()
@@ -13,7 +15,7 @@ module Bixby
       end
 
       def load_manifest(filename)
-        dsl = DSLProxy.new
+        dsl = DSLProxy.new(self)
         dsl.instance_eval(File.read(filename), filename, 1)
       end
 

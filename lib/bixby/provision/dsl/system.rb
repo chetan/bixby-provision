@@ -2,6 +2,7 @@
 require "bixby/provision/dsl/packager/base"
 require "bixby/provision/dsl/packager/apt"
 require "bixby/provision/dsl/packager/yum"
+require "bixby/provision/dsl/packager/npm"
 
 module Bixby
   module Provision

@@ -67,7 +67,7 @@ module Bixby
             return false
           end
 
-          self.manifest.sys.package "wget"
+          self.proxy.sys.package "wget"
 
           if systemu("wget -q #{url}", :cwd => YUM_REPOS_D).fail? then
             # TODO raise

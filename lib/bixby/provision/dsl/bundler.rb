@@ -4,7 +4,7 @@ module Bixby
 
     class Bundler < Base
 
-      EXPORTS = [:install]
+      EXPORTS = []
 
       def install(opts={})
         logger.info "bundle.install"
