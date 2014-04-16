@@ -2,12 +2,12 @@
 module Bixby
   module Provision
 
-    class Bundler
+    class Bundler < Base
 
       EXPORTS = [:install]
 
       def install(opts={})
-        puts "installing bundle"
+        logger.info "bundle.install"
       end
 
     end
