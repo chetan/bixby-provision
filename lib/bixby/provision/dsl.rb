@@ -1,4 +1,6 @@
 
+require "semver"
+
 require "bixby/provision/dsl/base"
 require "bixby/provision/dsl/run_control"
 
@@ -13,5 +15,6 @@ require "bixby/provision/dsl/scm"
 require "bixby/provision/dsl/inventory"
 
 require "bixby/provision/dsl/ntp"
+require "bixby/provision/dsl/nodejs"
 require "bixby/provision/dsl/ruby"
 require "bixby/provision/dsl/bundler"
