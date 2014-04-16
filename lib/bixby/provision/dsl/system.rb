@@ -8,7 +8,7 @@ module Bixby
 
     class System < Base
 
-      EXPORTS = [:refresh_packages, :upgrade_system, :package]
+      EXPORTS = [:refresh_packages, :upgrade_system, :package, :repo]
 
       attr_reader :packager
 
@@ -35,6 +35,13 @@ module Bixby
         packages.flatten!
         logger.info "installing packages " + packages.join(" ")
         packager.install(*packages)
+      end
+
+      def repo(name, opts={})
+        if packager.install_repo(name, opts) then
+          refresh_packages
+        end
+
       end
 
     end

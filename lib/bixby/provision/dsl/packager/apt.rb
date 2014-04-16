@@ -21,6 +21,13 @@ module Bixby
           logged_sudo("apt-get -qqy install " + packages.join(" "))
         end
 
+        def install_repo(name, opts={})
+          if name.downcase == "epel" then
+            logger.info "#{name} isn't supported on this distro"
+            return
+          end
+        end
+
 
         private
 
