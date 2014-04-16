@@ -5,8 +5,8 @@ first_boot do
 end
 
 repo "epel", :platforms => [:rhel, :centos]
-package "sudo", "wget"
 
+package "sudo", "wget"
 package "group-build_tools"
 package %w{ntp screen curl git}
 package "openssl-dev", "readline-dev", "zlib-dev", "curl-dev", "xslt-dev", "xml2-dev"
@@ -16,10 +16,10 @@ ntp.set "ntp.ubuntu.com"
 ruby.install :path => "/usr/local"
 gem "bundler", :version => "1.5.3"
 
-dir.create "/var/cache/omnibus", :chown => "$USER"
-dir.recreate "/opt/bixby", :chown => "$USER" # rm then create
+dir.create "/var/cache/omnibus", :chown => "bixby"
+dir.recreate "/opt/bixby-foo", :chown => "$USER" # rm then create
 
-checkout "https://github.com/chetan/bixby-omnibus.git", :path => "~/bixby-omnibus"
+checkout "https://github.com/chetan/bixby-omnibus.git", :path => "/home/vagrant/bixby-omnibus"
 bundle.install "~/bixby-omnibus"
 
 inventory.tap do
