@@ -11,6 +11,12 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define("testing-centos") do |cfg|
+    cfg.vm.provider :virtualbox do |vb, override|
+      override.vm.box     = "chef/centos-6.5"
+    end
+  end
+
   # common settings
 
   # config.vm.provision "shell", :privileged => false, :path => "scripts/bootstrap.sh"
