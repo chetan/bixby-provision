@@ -8,6 +8,7 @@ end
 gem "bixby-client"
 # gem "bixby-client", :path => "~/work/bixby/client"
 gem "api-auth", :github => "chetan/api_auth", :branch => "bixby"
+gem "git", "~> 1.2.6"
 
 group :development do
   # packaging

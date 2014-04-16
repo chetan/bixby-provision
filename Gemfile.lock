@@ -45,6 +45,9 @@ PATH
   remote: .
   specs:
     bixby-provision (0.0.0)
+      api-auth
+      bixby-client
+      git (~> 1.2.6)
 
 GEM
   remote: https://rubygems.org/
@@ -176,6 +179,7 @@ DEPENDENCIES
   awesome_print
   bixby-client
   bixby-provision!
+  git (~> 1.2.6)
   jeweler!
   micron!
   pry

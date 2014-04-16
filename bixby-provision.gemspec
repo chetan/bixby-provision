@@ -11,10 +11,54 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Chetan Sarva"]
-  s.date = "2014-04-02"
+  s.date = "2014-04-16"
   s.description = "Bixby Provisioner"
   s.email = "chetan@pixelcop.net"
   s.executables = ["bixby-provision"]
+  s.files = [
+    "Gemfile",
+    "Gemfile.lock",
+    "Rakefile",
+    "VERSION",
+    "Vagrantfile",
+    "bin/bixby-provision",
+    "bixby-provision.gemspec",
+    "lib/bixby-provision.rb",
+    "lib/bixby/provision.rb",
+    "lib/bixby/provision/dsl.rb",
+    "lib/bixby/provision/dsl/base.rb",
+    "lib/bixby/provision/dsl/bundler.rb",
+    "lib/bixby/provision/dsl/dir.rb",
+    "lib/bixby/provision/dsl/file.rb",
+    "lib/bixby/provision/dsl/inventory.rb",
+    "lib/bixby/provision/dsl/nodejs.rb",
+    "lib/bixby/provision/dsl/ntp.rb",
+    "lib/bixby/provision/dsl/packager/apt.rb",
+    "lib/bixby/provision/dsl/packager/base.rb",
+    "lib/bixby/provision/dsl/packager/yum.rb",
+    "lib/bixby/provision/dsl/repo.rb",
+    "lib/bixby/provision/dsl/repo/apt.rb",
+    "lib/bixby/provision/dsl/repo/base.rb",
+    "lib/bixby/provision/dsl/repo/epel.rb",
+    "lib/bixby/provision/dsl/repo/yum.rb",
+    "lib/bixby/provision/dsl/ruby.rb",
+    "lib/bixby/provision/dsl/run_control.rb",
+    "lib/bixby/provision/dsl/scm.rb",
+    "lib/bixby/provision/dsl/scm/base.rb",
+    "lib/bixby/provision/dsl/scm/git.rb",
+    "lib/bixby/provision/dsl/scm/svn.rb",
+    "lib/bixby/provision/dsl/service.rb",
+    "lib/bixby/provision/dsl/services/base.rb",
+    "lib/bixby/provision/dsl/services/init.rb",
+    "lib/bixby/provision/dsl/system.rb",
+    "lib/bixby/provision/manifest.rb",
+    "lib/bixby/provision/manifest/dsl_proxy.rb",
+    "manifest.rb",
+    "tasks/coverage.rake",
+    "tasks/jeweler.rake",
+    "tasks/test.rake",
+    "tasks/yard.rake"
+  ]
   s.homepage = "http://github.com/chetan/bixby-provision"
   s.licenses = ["MIT"]
   s.rubygems_version = "2.2.2"
@@ -24,6 +68,9 @@ Gem::Specification.new do |s|
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<bixby-client>, [">= 0"])
+      s.add_runtime_dependency(%q<api-auth>, [">= 0"])
+      s.add_runtime_dependency(%q<git>, ["~> 1.2.6"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
       s.add_development_dependency(%q<yard>, ["~> 0.7"])
       s.add_development_dependency(%q<pry>, [">= 0"])
@@ -31,6 +78,9 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<test_guard>, [">= 0"])
       s.add_development_dependency(%q<micron>, [">= 0"])
     else
+      s.add_dependency(%q<bixby-client>, [">= 0"])
+      s.add_dependency(%q<api-auth>, [">= 0"])
+      s.add_dependency(%q<git>, ["~> 1.2.6"])
       s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<yard>, ["~> 0.7"])
       s.add_dependency(%q<pry>, [">= 0"])
@@ -39,6 +89,9 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<micron>, [">= 0"])
     end
   else
+    s.add_dependency(%q<bixby-client>, [">= 0"])
+    s.add_dependency(%q<api-auth>, [">= 0"])
+    s.add_dependency(%q<git>, ["~> 1.2.6"])
     s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<yard>, ["~> 0.7"])
     s.add_dependency(%q<pry>, [">= 0"])
