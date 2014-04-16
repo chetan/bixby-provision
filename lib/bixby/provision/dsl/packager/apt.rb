@@ -22,8 +22,12 @@ module Bixby
         end
 
         def install_repo(name, opts={})
-          if name.downcase == "epel" then
-            logger.info "#{name} isn't supported on this distro"
+          name.downcase!
+          if name == "epel" then
+            logger.debug "#{name} isn't supported on this distro"
+            return
+          elsif name =~ /^https?.*\.repo$/ then
+            logger.debug "repo files are not supported on this distro: #{name}"
             return
           end
         end
