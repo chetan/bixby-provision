@@ -2,12 +2,12 @@
 module Bixby
   module Provision
 
-    class Ruby
+    class Ruby < Base
 
       EXPORTS = [:gem]
 
       def install(opts={})
-        puts "installing ruby"
+        logger.info "ruby.install"
       end
 
       def gem(name, opts={})
