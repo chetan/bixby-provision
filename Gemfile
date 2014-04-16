@@ -6,9 +6,13 @@ group :self do
 end
 
 gem "bixby-client"
-# gem "bixby-client", :path => "~/work/bixby/client"
+# gem "bixby-client", :path => "../client"
 gem "api-auth", :github => "chetan/api_auth", :branch => "bixby"
+gem "mixlib-shellout", "~> 1.3.0"
+
+# required by various DSLs
 gem "git", "~> 1.2.6"
+gem "tilt", "~> 2.0"
 
 group :development do
   # packaging
