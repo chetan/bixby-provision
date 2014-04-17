@@ -6,6 +6,7 @@ module Bixby
       class Base
 
         include Bixby::Log
+        extend Bixby::Log
         include Bixby::ScriptUtil
 
         attr_reader :manifest

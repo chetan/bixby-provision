@@ -7,6 +7,20 @@ module Bixby
 
         YUM_REPOS_D = "/etc/yum.repos.d/"
 
+        REPOS = {}
+
+        def self.register_plugin(mod, method=nil, name=nil)
+          if name.nil? then
+            name = mod.name.split(/::/).last.downcase
+          end
+          if method.nil? then
+            method = "install_#{name}".to_sym
+          end
+          logger.debug "[yum] registered plugin: #{name}"
+          REPOS[name] = method
+          include(mod)
+        end
+
         def refresh
           sudo("yum -q clean all")
           sudo("yum -q -y check-update")
@@ -18,9 +32,8 @@ module Bixby
 
         def install_repo(name, opts={})
           name.downcase!
-          if name == "epel" then
-            return install_epel_amazon(opts) if amazon?
-            return install_epel(opts)
+          if REPOS.include? name then
+            self.send(REPOS[name], opts)
           elsif name =~ /^https?.*\.repo$/ then
             return install_repo_url(name, opts)
           end
@@ -40,6 +53,7 @@ module Bixby
         def installed?(package)
           query_installed_packages(package).include? package
         end
+
 
         private
 
@@ -76,61 +90,10 @@ module Bixby
           true
         end
 
-        def install_epel(opts)
-
-          if installed? "epel-release" then
-            logger.info "epel repo already installed"
-            return false
-          end
-
-          logger.info "installing epel repo"
-
-          url = if centos_version >= SemVer.parse("v6.0.0") && centos_version < SemVer.parse("v7.0.0") then
-              "http://mirror.metrocast.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm"
-            elsif centos_version >= SemVer.parse("v5.0.0") && centos_version < SemVer.parse("v6.0.0") then
-              "http://mirror.metrocast.net/fedora/epel/5/i386/epel-release-5-4.noarch.rpm"
-            end
-
-          Dir.mktmpdir("bixby-provision") do |dir|
-            Dir.chdir(dir) do
-              if systemu("wget -q #{url}").fail? then
-                # TODO raise
-              end
-
-              logged_sudo("rpm --quiet -iv " + File.basename(url))
-            end
-          end
-
-          true
-        end
-
-        def install_epel_amazon(opts)
-          logger.info "enabling epel on amazon linux"
-
-          file = "/etc/yum.repos.d/epel.repo"
-
-          buff = File.read(file)
-          out = []
-          found = false
-          buff.split(/\n/).each do |line|
-            if line =~ /^enabled=/ then
-              # always enable the first entry only (leave debug and source repos, for now)
-              found = true
-              out << "enabled=1"
-            else
-              out << line
-            end
-          end
-
-          File.open(file, 'w') do |f|
-            f.puts out.join("\n")
-          end
-
-          true
-        end
-
-      end
+      end # Yum
 
     end
   end
 end
+
+require "bixby/provision/dsl/packager/yum/epel"
