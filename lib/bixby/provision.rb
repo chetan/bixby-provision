@@ -40,7 +40,7 @@ module Bixby
       # add accessors for each DSL object
       Base.class_eval <<-EOF
         def #{name}
-          self.manifest.send(:#{name})
+          self.proxy.send(:#{name})
         end
       EOF
 

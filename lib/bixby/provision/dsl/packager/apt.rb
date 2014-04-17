@@ -3,7 +3,7 @@ module Bixby
   module Provision
     module Packager
 
-      class Apt < Base
+      class Apt < PackagerBase
 
         def refresh
           sudo("apt-get -qqy update")

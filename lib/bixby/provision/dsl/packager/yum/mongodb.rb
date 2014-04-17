@@ -2,7 +2,7 @@
 module Bixby
   module Provision
     module Packager
-      class Yum < Base
+      class Yum < PackagerBase
 
         module MongoDB
 

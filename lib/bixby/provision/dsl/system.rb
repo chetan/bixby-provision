@@ -16,9 +16,9 @@ module Bixby
       def initialize(*args)
         super
         @packager = if ubuntu? then
-          Packager::Apt.new(self.manifest)
+          Packager::Apt.new(self)
         elsif centos? or amazon? then
-          Packager::Yum.new(self.manifest)
+          Packager::Yum.new(self)
         end
       end
 

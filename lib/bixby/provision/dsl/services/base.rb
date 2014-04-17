@@ -3,9 +3,7 @@ module Bixby
   module Provision
     module Services
 
-      class Base
-        include Bixby::Log
-        include Bixby::ScriptUtil
+      class ServiceBase < Base
       end
 
     end

@@ -11,7 +11,7 @@ module Bixby
       EXPORTS = [:checkout]
 
       def checkout(uri, opts={})
-        handler(uri).checkout(opts)
+        handler(uri).checkout(uri, opts)
       end
 
 
@@ -19,10 +19,10 @@ module Bixby
 
       def handler(uri)
         @handler ||= if uri =~ %r{\.git$} then
-            SCM::Git.new(uri)
+            SCM::Git.new(self)
           else
             # TODO add check
-            SCM::SVN.new(uri)
+            SCM::SVN.new(self)
           end
       end
 

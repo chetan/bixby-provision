@@ -3,7 +3,7 @@ module Bixby
   module Provision
     module Packager
 
-      class Yum < Base
+      class Yum < PackagerBase
 
         YUM_REPOS_D = "/etc/yum.repos.d/"
 

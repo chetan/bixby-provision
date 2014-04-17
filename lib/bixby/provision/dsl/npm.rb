@@ -7,7 +7,7 @@ module Bixby
       EXPORTS = []
 
       def install(*packages)
-        Packager::NPM.new(self.manifest).install(*packages)
+        Packager::NPM.new(self).install(*packages)
       end
 
     end

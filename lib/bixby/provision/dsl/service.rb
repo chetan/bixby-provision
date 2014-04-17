@@ -10,9 +10,9 @@ module Bixby
       def initialize(*args)
         super
         @services = if ubuntu? then
-            Services::Init.new
+            Services::Init.new(self)
           elsif centos? or amazon? then
-            Services::Init.new
+            Services::Init.new(self)
           end
       end
 
@@ -38,6 +38,14 @@ module Bixby
 
       def running?(name)
         @services.running?(name)
+      end
+
+      def ensure(name)
+        if centos? or amazon? then
+          logged_sudo("chkconfig --add #{name}")
+        elsif ubuntu? then
+          logged_sudo("update-rc.d #{name} defaults")
+        end
       end
 
     end

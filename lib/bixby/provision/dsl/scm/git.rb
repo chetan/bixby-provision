@@ -7,7 +7,7 @@ module Bixby
 
       class Git < SCMBase
 
-        def checkout(opts)
+        def checkout(uri, opts)
           path   = opts.delete(:path)
           branch = opts.delete(:branch) || "master"
 
@@ -19,9 +19,10 @@ module Bixby
             logger.info "repository already checked out at #{path}"
             return
           end
+          dir.create(path)
 
-          logger.info "cloning #{@uri} into #{path}, branch: #{branch}"
-          g = ::Git.clone(@uri, File.basename(path), :path => File.dirname(path))
+          logger.info "cloning #{uri} into #{path}, branch: #{branch}"
+          g = ::Git.clone(uri, File.basename(path), :path => File.dirname(path))
           g.checkout(branch) if branch != "master"
         end
 

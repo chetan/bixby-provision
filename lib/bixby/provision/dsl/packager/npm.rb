@@ -3,7 +3,7 @@ module Bixby
   module Provision
     module Packager
 
-      class NPM < Base
+      class NPM < PackagerBase
 
         def install(*packages)
           if packages.last.kind_of? Hash then

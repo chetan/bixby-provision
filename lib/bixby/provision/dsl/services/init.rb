@@ -3,7 +3,7 @@ module Bixby
   module Provision
     module Services
 
-      class Init < Base
+      class Init < ServiceBase
 
         def start(name, opts={})
           init("#{name} start")

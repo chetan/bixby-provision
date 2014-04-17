@@ -5,11 +5,19 @@ module Bixby
     class Base
 
       include Bixby::Log
+      extend Bixby::Log
       include Bixby::ScriptUtil
 
       PATH = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
       attr_accessor :manifest, :proxy
+
+      def initialize(obj=nil)
+        if obj.kind_of? Base then
+          @manifest = obj.manifest
+          @proxy    = obj.proxy
+        end
+      end
 
       def tap(&block)
         self.instance_eval(&block)
