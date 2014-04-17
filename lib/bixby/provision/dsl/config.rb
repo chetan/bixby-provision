@@ -10,6 +10,12 @@ module Bixby
 
       def file(dest, opts={})
 
+        dest_file = File.expand_path(dest)
+        if !File.writable?(dest_file) then
+          logger.error("[config] unable to write to #{dest}")
+          return
+        end
+
         source = resolve_file(opts.delete(:source))
         if source.nil? then
           # TODO raise
@@ -25,7 +31,7 @@ module Bixby
           # use template
           logger.info "rendering template #{source}"
           str = template.render(self.proxy)
-          File.open(dest, 'w') do |f|
+          File.open(dest_file, 'w') do |f|
             f.write str
           end
         end
