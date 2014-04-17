@@ -14,7 +14,7 @@ module Bixby
         version = opts.delete(:version) || CURRENT_VERSION
         path = opts.delete(:path) || "/usr/local"
 
-        if ubuntu? then
+        if ubuntu? || opts[:tarball] then
           install_from_tarball(version, path)
         elsif amazon? or centos? then
           sys.package "nodejs"
