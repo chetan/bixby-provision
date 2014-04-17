@@ -11,10 +11,7 @@ module Bixby
       def file(dest, opts={})
 
         dest_file = File.expand_path(dest)
-        if !File.writable?(dest_file) then
-          logger.error("[config] unable to write to #{dest}")
-          return
-        end
+        dir.create(File.dirname(dest_file))
 
         source = resolve_file(opts.delete(:source))
         if source.nil? then
@@ -24,13 +21,19 @@ module Bixby
         template = get_template(source)
         if template.nil? then
           # just copy the file over
-          logger.info "copying #{source} to #{dest}"
-          FileUtils.cp(source, dest)
+          if File.writable?(dest_file) then
+            logger.info "copying #{source} to #{dest}"
+            FileUtils.cp(source, dest_file)
+          else
+            logger.info "copying #{source} to #{dest} (as root)"
+            logged_sudo("cp #{source} #{dest_file}")
+          end
 
         else
           # use template
           logger.info "rendering template #{source}"
           str = template.render(self.proxy)
+          # TODO use sudo+cp from temp if necessary
           File.open(dest_file, 'w') do |f|
             f.write str
           end
