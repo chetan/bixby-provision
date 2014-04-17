@@ -22,7 +22,10 @@ module Bixby
       end
 
       def chown(path, chown, opts={})
-        chown.strip! if !chown.nil?
+        if chown.nil? then
+          return
+        end
+        chown.strip!
         return if chown.empty?
 
         user, group = chown.split(/:/)
