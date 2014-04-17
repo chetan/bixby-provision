@@ -29,11 +29,7 @@ module Bixby
 
             Dir.mktmpdir("bixby-provision") do |dir|
               Dir.chdir(dir) do
-                if systemu("wget -q #{url}").fail? then
-                  # TODO raise
-                end
-
-                logged_sudo("rpm --quiet -iv " + File.basename(url))
+                logged_sudo("rpm --quiet -iv #{url}")
               end
             end
 
