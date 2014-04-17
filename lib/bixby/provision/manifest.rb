@@ -6,9 +6,12 @@ module Bixby
 
     class Manifest
 
+      include Bixby::Log
+
       attr_reader :filename, :digest
 
       def initialize(filename)
+        test_sudo_access()
         @filename = filename
         @digest = Digest::SHA2.new(256).file(filename).hexdigest()
         load_manifest(filename)
@@ -17,6 +20,25 @@ module Bixby
       def load_manifest(filename)
         dsl = DSLProxy.new(self)
         dsl.instance_eval(File.read(filename), filename, 1)
+      end
+
+      private
+
+      def test_sudo_access
+        if Process.pid == 0 then
+          sudo = ENV["SUDO_USER"]
+          logger.debug "running as root" + (sudo ? " (via sudo user #{sudo})" : "")
+          return
+        end
+
+        cmd = Mixlib::ShellOut.new("sudo -n whoami")
+        cmd.run_command
+        if cmd.success? then
+          logger.debug "running as #{ENV['USER']} with sudo access"
+        else
+          STDERR.ptus "running as #{ENV['USER']} but sudo command failed: #{cmd.stdout}"
+          exit 1
+        end
       end
 
     end
