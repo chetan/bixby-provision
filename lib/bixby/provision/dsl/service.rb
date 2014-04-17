@@ -29,9 +29,11 @@ module Bixby
       end
 
       def restart(name, opts={})
+        @services.restart(name, opts)
       end
 
       def reload(name, opts={})
+        @services.reload(name, opts)
       end
 
       def running?(name)
