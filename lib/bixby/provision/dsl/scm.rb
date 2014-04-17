@@ -18,7 +18,7 @@ module Bixby
       private
 
       def handler(uri)
-        @handler ||= if uri =~ %r{^https?://.*\.git$} then
+        @handler ||= if uri =~ %r{\.git$} then
             SCM::Git.new(uri)
           else
             # TODO add check
