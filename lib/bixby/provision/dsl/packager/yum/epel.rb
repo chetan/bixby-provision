@@ -22,9 +22,9 @@ module Bixby
             logger.info "installing epel repo"
 
             url = if centos_version >= SemVer.parse("v6.0.0") && centos_version < SemVer.parse("v7.0.0") then
-                "http://mirror.metrocast.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm"
+                "http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm"
               elsif centos_version >= SemVer.parse("v5.0.0") && centos_version < SemVer.parse("v6.0.0") then
-                "http://mirror.metrocast.net/fedora/epel/5/i386/epel-release-5-4.noarch.rpm"
+                "http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm"
               end
 
             Dir.mktmpdir("bixby-provision") do |dir|
