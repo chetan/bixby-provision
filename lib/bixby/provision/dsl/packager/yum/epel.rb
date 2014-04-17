@@ -63,7 +63,7 @@ module Bixby
 
         end # EPEL
 
-        Yum.register_plugin(EPEL, :install_epel)
+        Yum.register_plugin(EPEL)
 
       end
     end

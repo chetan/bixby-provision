@@ -33,7 +33,7 @@ module Bixby
         def install_repo(name, opts={})
           name.downcase!
           if REPOS.include? name then
-            self.send(REPOS[name], opts)
+            return self.send(REPOS[name], opts)
           elsif name =~ /^https?.*\.repo$/ then
             return install_repo_url(name, opts)
           end
@@ -97,3 +97,4 @@ module Bixby
 end
 
 require "bixby/provision/dsl/packager/yum/epel"
+require "bixby/provision/dsl/packager/yum/mongodb"
