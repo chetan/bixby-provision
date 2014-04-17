@@ -8,8 +8,14 @@ module Bixby
 
       def create(path, opts={})
         logger.info "ensuring #{path} exists"
-        FileUtils.mkdir_p(path) if !File.exists? path
-        chown(path, opts.delete(:chown))
+        begin
+          FileUtils.mkdir_p(path) if !File.exists? path
+          chown(path, opts.delete(:chown))
+        rescue Errno::EACCES => ex
+          logger.info "[dir] permission denied, trying again with sudo"
+          logged_sudo("mkdir -p #{path}")
+          chown(path, opts.delete(:chown))
+        end
       end
 
       def recreate(path, opts={})
@@ -25,12 +31,13 @@ module Bixby
         uid = get_uid(user)
         gid = get_gid(group)
 
-        logger.info "ensuring ownership matches '#{get_user(uid)}" + (gid ? ":#{get_group(gid)}'" : "'")
+        logger.info "[dir] ensuring ownership matches '#{get_user(uid)}" + (gid ? ":#{get_group(gid)}'" : "'")
 
+        # always as root
         if opts[:recurse] or opts[:recursively] then
-          FileUtils.chown_R(uid, gid, [path])
+          logged_sudo("chown -R #{uid}:#{gid} #{path}")
         else
-          File.chown(uid, gid, path)
+          logged_sudo("chown #{uid}:#{gid} #{path}")
         end
       end
 
