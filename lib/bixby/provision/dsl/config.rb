@@ -30,6 +30,12 @@ module Bixby
 
         template = get_template(source)
         if template.nil? then
+
+          if sha256sum(dest_file) == sha256sum(source) then
+            logger.info "[config] source and dest sha256sum already match; skipping"
+            return
+          end
+
           # just copy the file over
           if File.writable?(dest_file) then
             logger.info "copying #{source} to #{dest}"

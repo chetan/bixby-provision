@@ -59,6 +59,41 @@ module Bixby
           end
         end
 
+        # Get the SHA-256 hex digest of the given file
+        #
+        # @param [String] filename
+        #
+        # @return [String] sha256 hash in hexadecimal form
+        def sha256sum(filename)
+          if ::File.readable? filename then
+            return Digest::SHA2.new(256).file(filename).hexdigest()
+          end
+
+          # read as root
+          if cmd = which("sha256sum") then
+            return logged_sudo("#{cmd} #{filename}").stdout.split(/\s+/).first
+          end
+
+          # use cat - may not work for binaries
+          str = logged_sudo("cat #{filename}").stdout
+          return Digest::SHA2.new(256).update(str).hexdigest()
+        end
+
+        # Locate the given command, if it exists
+        #
+        # @param [String] cmd     to locate
+        #
+        # @return [String] path to command if it exists, or nil
+        def which(cmd)
+          ret = systemu("which #{cmd}")
+          if ret.success? then
+            return ret.stdout.strip
+          else
+            return nil
+          end
+        end
+        alias_method :command_exists?, :which
+
       end
     end
   end
