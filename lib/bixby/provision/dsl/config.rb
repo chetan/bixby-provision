@@ -10,6 +10,7 @@ module Bixby
 
       def file(dest, opts={})
 
+        # By default, attempt to preserve ownership and mode if none are given in opts
         opts[:preserve] = true if !opts.include? :preserve
 
         dest_file = File.expand_path(dest)
