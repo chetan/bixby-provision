@@ -28,6 +28,7 @@ module Bixby
 
       def get_uid(user)
         return user if user.nil? or user.kind_of? Fixnum
+        return user.to_i if user =~ /^[0-9]+$/ # convert to int, e.g. "500"
         begin
           return Etc.getpwnam(user).uid
         rescue ArgumentError => ex
@@ -49,6 +50,7 @@ module Bixby
 
       def get_gid(group)
         return group if group.nil? or group.kind_of? Fixnum
+        return group.to_i if group =~ /^[0-9]+$/ # convert to int, e.g. "500"
         begin
           return Etc.getgrnam(group).gid
         rescue ArgumentError => ex
