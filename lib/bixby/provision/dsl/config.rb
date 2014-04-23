@@ -10,8 +10,17 @@ module Bixby
 
       def file(dest, opts={})
 
+        opts[:preserve] = true if !opts.include? :preserve
+
         dest_file = File.expand_path(dest)
-        dir.create(File.dirname(dest_file))
+        if File.exists? dest_file then
+          stat = File.stat(dest_file)
+          old_owner = "#{stat.uid}:#{stat.gid}"
+          old_mode  = stat.mode
+        else
+          old_owner = old_mode = nil
+          dir.create(File.dirname(dest_file))
+        end
 
         source = resolve_file(opts.delete(:source))
         if source.nil? then
@@ -38,6 +47,16 @@ module Bixby
             f.write str
           end
         end
+
+        # set correct ownership/mode
+        owner = opts[:chown]
+        mode = opts[:chmod]
+        if opts[:preserve] then
+          owner ||= old_owner
+          mode ||= old_mode
+        end
+        chown(dest_file, owner)
+        chmod(dest_file, mode)
 
       end
 
