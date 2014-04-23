@@ -32,22 +32,22 @@ module Bixby
         if template.nil? then
 
           if sha256sum(dest_file) == sha256sum(source) then
-            logger.info "[config] source and dest sha256sum already match; skipping"
+            logger.info "[config] skipping #{dest_file}: sha256sum matches"
             return
           end
 
           # just copy the file over
           if File.writable?(dest_file) then
-            logger.info "copying #{source} to #{dest}"
+            logger.info "[config] copying #{source} to #{dest}"
             FileUtils.cp(source, dest_file)
           else
-            logger.info "copying #{source} to #{dest} (as root)"
+            logger.info "[config] copying #{source} to #{dest} (as root)"
             logged_sudo("cp #{source} #{dest_file}")
           end
 
         else
           # use template
-          logger.info "rendering template #{source}"
+          logger.info "[config] rendering template #{source}"
           str = template.render(self.proxy)
           # TODO use sudo+cp from temp if necessary
           File.open(dest_file, 'w') do |f|
