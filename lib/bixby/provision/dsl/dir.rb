@@ -11,10 +11,12 @@ module Bixby
         begin
           FileUtils.mkdir_p(path) if !File.exists? path
           chown(path, opts[:chown])
+          chmod(path, opts[:chmod])
         rescue Errno::EACCES => ex
           logger.info "[dir] permission denied, trying again with sudo"
           logged_sudo("mkdir -p #{path}")
           chown(path, opts[:chown])
+          chmod(path, opts[:chmod])
         end
       end
 
