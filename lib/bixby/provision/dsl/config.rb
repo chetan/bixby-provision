@@ -23,7 +23,7 @@ module Bixby
           dir.create(File.dirname(dest_file))
         end
 
-        source = resolve_file(opts.delete(:source))
+        source = resolve_file(opts.delete(:source), dest_file)
         if source.nil? then
           # TODO raise
         end
@@ -83,8 +83,12 @@ module Bixby
         nil
       end
 
-      def resolve_file(file)
-        return nil if file.nil?
+      def resolve_file(file, dest)
+        if file.nil? then
+          return nil if dest.nil?
+          # look for a file with the same name as in dest
+          file = File.basename(dest)
+        end
 
         f = File.expand_path(file)
         return f if File.exists? f
