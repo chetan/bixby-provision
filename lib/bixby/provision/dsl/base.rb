@@ -1,4 +1,6 @@
 
+require "bixby/provision/dsl/util/file"
+
 module Bixby
   module Provision
 
@@ -7,6 +9,7 @@ module Bixby
       include Bixby::Log
       extend Bixby::Log
       include Bixby::ScriptUtil
+      include Bixby::Provision::Util::File
 
       PATH = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
