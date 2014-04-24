@@ -17,7 +17,7 @@ module Bixby
           uid = get_uid(user)
           gid = get_gid(group)
 
-          logger.info "[file] ensuring ownership matches '#{get_user(uid)}" + (gid ? ":#{get_group(gid)}'" : "'")
+          logger.info "[chown] #{path} -> '#{get_user(uid)}" + (gid ? ":#{get_group(gid)}'" : "'")
 
           # always as root
           if opts[:recurse] or opts[:recursively] then
@@ -49,7 +49,7 @@ module Bixby
             end
           end
 
-          logger.info "[file] ensuring mode matches '#{mode}'"
+          logger.info "[chmod] #{path} -> '#{mode}'"
 
           # always as root
           if opts[:recurse] or opts[:recursively] then
