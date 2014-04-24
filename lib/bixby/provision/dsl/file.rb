@@ -49,16 +49,20 @@ module Bixby
         args = args.map{ |s| File.expand_path(s) }
         files = args.join(' ')
 
+        flags = ""
+        flags += "-r" if (opts[:recurse] || opts[:recursively])
+        flags += " -f" if opts[:force]
+
         if File.writable? dest_dir then
           dest = args.size > 1 ? dest_dir : dest
           logger.info "[file] copying #{files} -> #{dest}"
-          logged_systemu("cp #{files} #{dest}")
+          logged_systemu("cp #{flags} #{files} #{dest}")
 
         else
           # as root
           dest = args.size > 1 ? dest_dir : dest
           logger.info "[file] copying #{files} -> #{dest}"
-          logged_sudo("cp #{files} #{dest}")
+          logged_sudo("cp #{flags} #{files} #{dest}")
         end
 
 
