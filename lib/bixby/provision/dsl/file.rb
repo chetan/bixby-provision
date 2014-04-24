@@ -47,18 +47,54 @@ module Bixby
         end
 
         args = args.map{ |s| File.expand_path(s) }
+        files = args.join(' ')
 
         if File.writable? dest_dir then
           dest = args.size > 1 ? dest_dir : dest
-          logged_systemu("cp #{args.join(' ')} #{dest}")
+          logger.info "[file] copying #{files} -> #{dest}"
+          logged_systemu("cp #{files} #{dest}")
 
         else
           # as root
           dest = args.size > 1 ? dest_dir : dest
-          logged_sudo("cp #{args.join(' ')} #{dest}")
+          logger.info "[file] copying #{files} -> #{dest}"
+          logged_sudo("cp #{files} #{dest}")
         end
 
-      end
+
+        return if !(opts[:chmod] or opts[:chown])
+
+        # need to take care to translate src args to dest path
+        # can't simply pass args into chmod/chown for this reason,
+        # since we want to affect the newly copied files
+
+        if args.length > 1 || args.first.include?("*") then
+          # work on all source files
+          args.each do |s|
+            if s.include? "*" then
+              Dir.glob(s).each{ |e|
+                f = File.join(dest_dir, File.basename(e))
+                chmod(f, opts[:chmod]) if opts[:chmod]
+                chown(f, opts[:chown]) if opts[:chown]
+              }
+            else
+              f = File.join(dest_dir, File.basename(e))
+              chmod(f, opts[:chmod]) if opts[:chmod]
+              chown(f, opts[:chown]) if opts[:chown]
+            end
+          end
+
+        else
+          # work on a single file
+          if File.directory? dest then
+            dest = File.join(dest, File.basename(args.first))
+          end
+
+          chmod(dest, opts[:chmod]) if opts[:chmod]
+          chown(dest, opts[:chown]) if opts[:chown]
+        end
+
+      end # copy
 
     end
 
