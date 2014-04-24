@@ -12,8 +12,14 @@ module Bixby
           return
         end
 
-        logger.info "installing meteor"
+        logger.info "[meteor] installing meteor"
         logged_systemu("curl -sL https://install.meteor.com | sh")
+      end
+
+      # Run meteorite install
+      def mrt(path, opts={})
+        logger.info "[meteor] mrt install"
+        logged_systemu("mrt install", :cwd => File.expand_path(path))
       end
 
     end
