@@ -4,7 +4,7 @@ module Bixby
 
     class DirDSL < Base
 
-      EXPORTS = []
+      EXPORTS = [:mkdir, :mkdir_p]
 
       def create(path, opts={})
         logger.info "ensuring #{path} exists"
@@ -19,6 +19,8 @@ module Bixby
           chmod(path, opts[:chmod])
         end
       end
+      alias_method :mkdir, :create
+      alias_method :mkdir_p, :create
 
       def recreate(path, opts={})
       end
