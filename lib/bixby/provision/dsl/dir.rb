@@ -7,7 +7,7 @@ module Bixby
       EXPORTS = [:mkdir, :mkdir_p]
 
       def create(path, opts={})
-        logger.info "ensuring #{path} exists"
+        logger.info "[dir] ensuring #{path} exists"
         begin
           FileUtils.mkdir_p(path) if !File.exists? path
           chown(path, opts[:chown])
