@@ -8,6 +8,7 @@ module Bixby
 
       def create(path, opts={})
         logger.info "[dir] ensuring #{path} exists"
+        path = File.expand_path(path)
         begin
           FileUtils.mkdir_p(path) if !File.exists? path
           chown(path, opts[:chown])
