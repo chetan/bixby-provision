@@ -49,10 +49,21 @@ module Bixby
           # use template
           logger.info "[config] rendering template #{source}"
           str = template.render(self.proxy)
-          # TODO use sudo+cp from temp if necessary
-          File.open(dest_file, 'w') do |f|
-            f.write str
+
+          if (File.exists? dest_file and File.writable? dest_file) or
+              File.writable? File.dirname(dest_file) then
+
+            # write directly
+            File.open(dest_file, 'w') { |f| f.write str }
+
+          else
+            # write to temp and mv into place
+            t = Tempfile.new("bixby-provision-")
+            t.write str
+            t.close
+            logged_sudo("mv #{t.path} #{dest_file}")
           end
+
         end
 
         # set correct ownership/mode
