@@ -28,6 +28,8 @@ module Bixby
             ensure_ssh_verify($3)
           end
 
+          sys.package "git"
+
           logger.info "[scm] cloning #{uri} into #{path}, branch: #{branch}"
           g = ::Git.clone(uri, File.basename(path), :path => File.dirname(path))
           g.checkout(branch) if branch != "master"
