@@ -1,4 +1,6 @@
 
+require "forwardable"
+
 module Bixby
   module Provision
     class Manifest
