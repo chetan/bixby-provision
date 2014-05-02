@@ -44,7 +44,7 @@ GIT
 PATH
   remote: .
   specs:
-    bixby-provision (0.1.0)
+    bixby-provision (0.1.1)
       api-auth
       bixby-client
       git (~> 1.2.6)
