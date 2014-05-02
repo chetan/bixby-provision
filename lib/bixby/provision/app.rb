@@ -20,10 +20,11 @@ module Bixby
           t.write(str)
           t.close
           file = t.path
+        else
+          file = File.expand_path(file)
+          logger.info "reading manifest from file #{file}"
         end
 
-        file = File.expand_path(file)
-        logger.info "reading manifest from file #{file}"
         Bixby::Provision::Manifest.new(file)
       end
 
