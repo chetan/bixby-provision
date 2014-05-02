@@ -19,7 +19,9 @@ module Bixby
 
       def load_manifest(filename)
         dsl = DSLProxy.new(self)
-        dsl.instance_eval(File.read(filename), filename, 1)
+        str = File.read(filename)
+        logger.debug { sprintf("read %s line(s)", str.split(/\n/).size) }
+        dsl.instance_eval(str, filename, 1)
       end
 
       private
