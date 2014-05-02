@@ -1,6 +1,4 @@
 
-require "git"
-
 module Bixby
   module Provision
     class SCM < Base
@@ -29,6 +27,7 @@ module Bixby
           end
 
           sys.package "git"
+          require "git" # lazy require here, because loading will try to run `git --version`
 
           logger.info "[scm] cloning #{uri} into #{path}, branch: #{branch}"
           g = ::Git.clone(uri, File.basename(path), :path => File.dirname(path))
