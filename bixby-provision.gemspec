@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Chetan Sarva"]
-  s.date = "2014-05-01"
+  s.date = "2014-05-02"
   s.description = "Bixby Provisioner"
   s.email = "chetan@pixelcop.net"
   s.executables = ["bixby-provision"]
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "bixby-provision.gemspec",
     "lib/bixby-provision.rb",
     "lib/bixby/provision.rb",
+    "lib/bixby/provision/app.rb",
     "lib/bixby/provision/dsl.rb",
     "lib/bixby/provision/dsl/base.rb",
     "lib/bixby/provision/dsl/bundler.rb",
