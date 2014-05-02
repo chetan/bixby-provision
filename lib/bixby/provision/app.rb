@@ -1,4 +1,6 @@
 
+require "tempfile"
+
 module Bixby
   module Provision
 
