@@ -53,3 +53,13 @@ require "bixby/provision/manifest"
 require "bixby/provision/dsl"
 
 Bixby::Log.setup_logger(:filename => Bixby.path("var", "provision.log"))
+
+# enable condensed logging to stdout
+Logging.appenders.stdout( 'provision_stdout',
+  :auto_flushing => true,
+  :layout => Logging.layouts.pattern(
+    :pattern => '%.1l, [%d] %m\n',
+    :color_scheme => 'bright'
+  )
+)
+Logging::Logger.root.add_appenders("provision_stdout")
