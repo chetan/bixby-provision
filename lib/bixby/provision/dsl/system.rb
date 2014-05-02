@@ -23,26 +23,26 @@ module Bixby
       end
 
       def refresh_packages
-        logger.info "refresh_packages"
+        logger.info "[sys] refresh_packages"
         packager.refresh
       end
 
       def upgrade_system
-        logger.info "upgrade_system"
+        logger.info "[sys] upgrade_system"
         packager.upgrade_system
       end
 
       def package(*packages)
         packages.flatten!
-        logger.info "installing packages " + packages.join(" ")
+        logger.info "[sys] installing packages: " + packages.join(" ")
         packager.install(*packages)
       end
+      alias_method :packages, :package
 
       def repo(name, opts={})
         if packager.install_repo(name, opts) then
           refresh_packages
         end
-
       end
 
     end
