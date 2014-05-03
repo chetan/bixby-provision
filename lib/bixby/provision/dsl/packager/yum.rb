@@ -76,18 +76,20 @@ module Bixby
         def install_repo_url(url, opts)
           logger.info "installing repo from #{url}"
 
-          if File.exists? File.join(YUM_REPOS_D, File.basename(url)) then
+          dest = File.join(YUM_REPOS_D, File.basename(url))
+          if File.exists? dest then
             logger.debug "repo already exists"
             return false
           end
 
           self.proxy.sys.package "wget"
 
-          if systemu("wget -q #{url}", :cwd => YUM_REPOS_D).fail? then
+          t = tempfile(true)
+          if logged_systemu("wget -q #{url} -O #{t.path}").fail? then
             # TODO raise
           end
 
-          true
+          logged_sudo("mv -f #{t.path} #{dest}").success?
         end
 
       end # Yum

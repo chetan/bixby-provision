@@ -20,17 +20,16 @@ module Bixby
 
             arch = amd64?() ? "x86_64" : "i686"
 
-            File.open(file, 'w') do |f|
-              f.puts <<-EOF
+            t = tempfile()
+            t.puts <<-EOF
 [mongodb]
 name=MongoDB Repository
 baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/#{arch}/
 gpgcheck=0
 enabled=1
 EOF
-            end
-
-            true
+            t.close
+            logged_sudo("mv -f #{t.path} #{file}").success?
           end
 
         end # MongoDB

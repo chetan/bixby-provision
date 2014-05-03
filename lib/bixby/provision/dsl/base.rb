@@ -1,4 +1,6 @@
 
+require "tempfile"
+
 require "bixby/provision/dsl/util/file"
 
 module Bixby
@@ -68,6 +70,17 @@ module Bixby
           logger.warn("Group '#{group}' was invalid: #{ex.message}")
         end
         nil
+      end
+
+      # Create a temporary file
+      #
+      # @param [Boolean] close         If true, close the file handle before returning it (default: false)
+      #
+      # @return [Tempfile]
+      def tempfile(close=false)
+        t = Tempfile.new("bixby-provision-")
+        t.close if close
+        t
       end
 
     end
